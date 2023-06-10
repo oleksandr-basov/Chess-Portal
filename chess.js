@@ -44,7 +44,26 @@ function createChessBoard() {
             chessBoard.appendChild(cell);
         }
     }
+    // Bind the 'click' event to all cells
+    chessBoard.querySelectorAll('.cell').forEach((cell) => {
+        cell.addEventListener('click', selectPiece);
+    });
 }
+
+const selectPiece = (event) => {
+    const selectedCell = event.target;
+    const selectedPiece = selectedCell.textContent;
+    // Check if a piece is selected
+    if (selectedPiece.trim().length > 0) {
+        // Add 'selected' class to highlight the cell
+        selectedCell.classList.add('selected');
+        // Save the selected piece and cell for later use
+        window.selectedPiece = {
+            piece: selectedPiece,
+            fromCell: selectedCell
+        };
+    }
+};
 
 function renderChessPieces(chessState) {
     for (let i = 0; i < chessState.length; i++) {
