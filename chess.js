@@ -46,4 +46,18 @@ function createChessBoard() {
     }
 }
 
+function renderChessPieces(chessState) {
+    for (let i = 0; i < chessState.length; i++) {
+        for (let j = 0; j < chessState[i].length; j++) {
+            let piece = chessState[i][j];
+            if (piece !== ' ') {
+                let cell = document.getElementById(`cell-${i}-${j}`);
+                let textNode = document.createTextNode(chessPieces[piece]);
+                cell.appendChild(textNode);
+            }
+        }
+    }
+}
+
 createChessBoard();
+renderChessPieces(initialChessState);
