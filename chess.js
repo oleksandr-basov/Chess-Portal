@@ -1,17 +1,16 @@
-// Constants for the chess pieces, represented as strings.
 const chessPieces = {
-    'r': '♜', // Black Rook
-    'n': '♞', // Black Knight
-    'b': '♝', // Black Bishop
-    'q': '♛', // Black Queen
-    'k': '♚', // Black King
-    'p': '♟︎', // Black Pawn
-    'R': '♖', // White Rook
-    'N': '♘', // White Knight
-    'B': '♗', // White Bishop
-    'Q': '♕', // White Queen
-    'K': '♔', // White King
-    'P': '♙'  // White Pawn
+    'r': 'images/black_rook.png',
+    'n': 'images/black_knight.png',
+    'b': 'images/black_bishop.png',
+    'q': 'images/black_queen.png',
+    'k': 'images/black_king.png',
+    'p': 'images/black_pawn.png',
+    'R': 'images/white_rook.png',
+    'N': 'images/white_knight.png',
+    'B': 'images/white_bishop.png',
+    'Q': 'images/white_queen.png',
+    'K': 'images/white_king.png',
+    'P': 'images/white_pawn.png',
 };
 
 const initialChessState = [
@@ -59,13 +58,13 @@ const handleCellClick = (event) => {
         const { piece, fromCell } = window.selectedPiece;
 
         // If the destination cell is not empty, do nothing
-        if (destinationCell.textContent.trim().length > 0) {
+        if (destinationCell.style.backgroundImage !== "") {
             return;
         }
 
         // Move the piece from the old cell to the new cell
-        fromCell.textContent = '';
-        destinationCell.textContent = piece;
+        fromCell.style.backgroundImage = '';
+        destinationCell.style.backgroundImage = piece;
 
         // Remove the 'selected' class from the old cell
         fromCell.classList.remove('selected');
@@ -75,10 +74,10 @@ const handleCellClick = (event) => {
     } else {
         // Select a piece
         const selectedCell = event.target;
-        const selectedPiece = selectedCell.textContent;
+        const selectedPiece = selectedCell.style.backgroundImage;
 
         // Check if a piece is selected
-        if (selectedPiece.trim().length > 0) {
+        if (selectedPiece !== "") {
             // Add 'selected' class to highlight the cell
             selectedCell.classList.add('selected');
 
@@ -98,8 +97,8 @@ function renderChessPieces(chessState) {
             let piece = chessState[i][j];
             if (piece !== ' ') {
                 let cell = document.getElementById(`cell-${i}-${j}`);
-                let textNode = document.createTextNode(chessPieces[piece]);
-                cell.appendChild(textNode);
+                cell.style.backgroundImage = `url(${chessPieces[piece]})`;
+                cell.style.backgroundSize = 'contain';  // Fit image within cell
             }
         }
     }

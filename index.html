@@ -22,6 +22,15 @@
             align-items: center;
             font-size: 2em;
             border: 1px solid #000;
+
+            /* Scale piece images to fit within cell */
+            background-size: contain;
+
+            /* Do not tile the piece images */
+            background-repeat: no-repeat;
+
+            /* Center the piece images */
+            background-position: center;
         }
 
         .white {
@@ -33,7 +42,8 @@
         }
 
         .selected {
-            background-color: #32cd32;
+            box-shadow: inset 0 0 0 3px #32cd32;
+            /* Highlight selected cell with a green border */
         }
     </style>
 </head>
