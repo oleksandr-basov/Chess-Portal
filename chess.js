@@ -44,54 +44,52 @@ function createChessBoard() {
             chessBoard.appendChild(cell);
         }
     }
+
     // Bind the 'click' event to all cells
     chessBoard.querySelectorAll('.cell').forEach((cell) => {
-        cell.addEventListener('click', selectPiece);
+        cell.addEventListener('click', handleCellClick);
     });
 }
 
-const selectPiece = (event) => {
-    const selectedCell = event.target;
-    const selectedPiece = selectedCell.textContent;
-    // Check if a piece is selected
-    if (selectedPiece.trim().length > 0) {
-        // Add 'selected' class to highlight the cell
-        selectedCell.classList.add('selected');
-        // Save the selected piece and cell for later use
-        window.selectedPiece = {
-            piece: selectedPiece,
-            fromCell: selectedCell
-        };
-        // Remove 'click' event listener for selectPiece
-        selectedCell.removeEventListener('click', selectPiece);
-        // Add 'click' event listener for movePiece
-        selectedCell.addEventListener('click', movePiece);
+const handleCellClick = (event) => {
+    // Check if a piece is already selected
+    if (window.selectedPiece) {
+        // Retrieve the destination cell and the selected piece info
+        const destinationCell = event.target;
+        const { piece, fromCell } = window.selectedPiece;
+
+        // If the destination cell is not empty, do nothing
+        if (destinationCell.textContent.trim().length > 0) {
+            return;
+        }
+
+        // Move the piece from the old cell to the new cell
+        fromCell.textContent = '';
+        destinationCell.textContent = piece;
+
+        // Remove the 'selected' class from the old cell
+        fromCell.classList.remove('selected');
+
+        // Reset window.selectedPiece
+        window.selectedPiece = null;
+    } else {
+        // Select a piece
+        const selectedCell = event.target;
+        const selectedPiece = selectedCell.textContent;
+
+        // Check if a piece is selected
+        if (selectedPiece.trim().length > 0) {
+            // Add 'selected' class to highlight the cell
+            selectedCell.classList.add('selected');
+
+            // Save
+            // Save the selected piece and cell for later use
+            window.selectedPiece = {
+                piece: selectedPiece,
+                fromCell: selectedCell
+            };
+        }
     }
-};
-
-
-const movePiece = (event) => {
-    // Retrieve the destination cell and the selected piece info
-    const destinationCell = event.target;
-    const { piece, fromCell } = window.selectedPiece || {};
-
-    // If there is no selected piece or the destination cell is not empty, do nothing
-    if (!piece || destinationCell.textContent.trim().length > 0) {
-        return;
-    }
-
-    // Move the piece from the old cell to the new cell
-    fromCell.textContent = '';
-    destinationCell.textContent = piece;
-
-    // Remove the 'selected' class from the old cell
-    fromCell.classList.remove('selected');
-
-    // Remove 'click' event listener for movePiece
-    fromCell.removeEventListener('click', movePiece);
-    
-    // Add 'click' event listener for selectPiece
-    fromCell.addEventListener('click', selectPiece);
 };
 
 function renderChessPieces(chessState) {
