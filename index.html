@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Simple Chess Board</title>
     <meta charset="UTF-8">
     <style>
-        /* Add your CSS here, or link to an external CSS file */
+        #chess-board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            width: 100vh;
+            /* This makes the board a square, change as needed */
+            height: 100vh;
+            /* This makes the board a square, change as needed */
+            border: 1px solid #000;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            border: 1px solid #000;
+        }
+
+        .white {
+            background-color: #ffd39b;
+        }
+
+        .black {
+            background-color: #824100;
+        }
+
+        .selected {
+            background-color: #32cd32;
+        }
     </style>
 </head>
+
 <body>
-    <div id="chessBoard"></div>
     <script src="chess.js"></script>
 </body>
+
 </html>
