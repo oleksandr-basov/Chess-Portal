@@ -62,7 +62,36 @@ const selectPiece = (event) => {
             piece: selectedPiece,
             fromCell: selectedCell
         };
+        // Remove 'click' event listener for selectPiece
+        selectedCell.removeEventListener('click', selectPiece);
+        // Add 'click' event listener for movePiece
+        selectedCell.addEventListener('click', movePiece);
     }
+};
+
+
+const movePiece = (event) => {
+    // Retrieve the destination cell and the selected piece info
+    const destinationCell = event.target;
+    const { piece, fromCell } = window.selectedPiece || {};
+
+    // If there is no selected piece or the destination cell is not empty, do nothing
+    if (!piece || destinationCell.textContent.trim().length > 0) {
+        return;
+    }
+
+    // Move the piece from the old cell to the new cell
+    fromCell.textContent = '';
+    destinationCell.textContent = piece;
+
+    // Remove the 'selected' class from the old cell
+    fromCell.classList.remove('selected');
+
+    // Remove 'click' event listener for movePiece
+    fromCell.removeEventListener('click', movePiece);
+    
+    // Add 'click' event listener for selectPiece
+    fromCell.addEventListener('click', selectPiece);
 };
 
 function renderChessPieces(chessState) {
