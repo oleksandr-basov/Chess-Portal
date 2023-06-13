@@ -14,7 +14,7 @@ const handleCellClick = (event) => {
         }
 
         // Check if the move is legal
-        if (!isLegalMove(fromCell, destinationCell, pieceType, pieceColor)) {
+        if (!chessService.isLegalMove(fromCell, destinationCell, pieceType, pieceColor)) {
             console.log('Illegal move');
             return;
         }
@@ -67,7 +67,7 @@ function highlightPossibleMoves(fromCell) {
             const selectedPiece = fromCell.querySelector('.piece').style.backgroundImage;
             const pieceType = selectedPiece.includes('pawn') ? 'pawn' : 'unknown';
             const pieceColor = selectedPiece.includes('white') ? 'white' : 'black';
-            if (isLegalMove(fromCell, toCell, pieceType, pieceColor)) {
+            if (chessService.isLegalMove(fromCell, toCell, pieceType, pieceColor)) {
                 toCell.classList.add('possibleMove');
             }
         }
@@ -80,7 +80,7 @@ function renderChessPieces(chessState) {
             let pieceCode = chessState[i][j];
             if (pieceCode !== ' ') {
                 let piece = document.querySelector(`#cell-${i}-${j} .piece`);
-                piece.style.backgroundImage = `url(${chessPieces[pieceCode]})`;
+                piece.style.backgroundImage = `url(${chessService.chessPieces[pieceCode]})`;
                 piece.style.backgroundSize = 'contain';  // Fit image within cell
                 piece.style.backgroundRepeat = 'no-repeat';
             }

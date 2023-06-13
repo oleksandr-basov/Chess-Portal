@@ -1,5 +1,6 @@
 // board.js
 import chessService from '../services/chessService.js';
+import piece from './piece.js';
 
 function createChessBoard() {
     let chessBoard = document.createElement('div');
@@ -13,14 +14,14 @@ function createChessBoard() {
             cell.className = `cell ${((i % 2) ^ (j % 2)) ? 'light' : 'dark'}`;
             cell.id = `cell-${i}-${j}`;
 
-            let piece = document.createElement('div');
-            piece.className = 'piece';
-            cell.appendChild(piece);
+            let chessPiece = document.createElement('div');
+            chessPiece.className = 'piece';
+            cell.appendChild(chessPiece);
 
             chessBoard.appendChild(cell);
 
             // Bind the 'click' event to the cell
-            cell.addEventListener('click', handleCellClick);
+            cell.addEventListener('click', piece.handleCellClick);
         }
     }
 }

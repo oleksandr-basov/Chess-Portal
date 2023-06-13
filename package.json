@@ -2,13 +2,15 @@
   "name": "chess-portal",
   "version": "1.0.0",
   "description": "Chess",
-  "main": "chess.js",
+  "main": "src/main.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "webpack --mode development",
+    "build:prod": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,12 @@
   "dependencies": {
     "express": "^4.18.2",
     "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "babel-core": "^4.7.16",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
   }
 }
