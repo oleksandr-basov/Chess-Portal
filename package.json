@@ -1,0 +1,28 @@
+{
+  "name": "chess-portal",
+  "version": "1.0.0",
+  "description": "Chess",
+  "main": "chess.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oleksandr-basov/Chess-Portal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oleksandr-basov/Chess-Portal/issues"
+  },
+  "homepage": "https://github.com/oleksandr-basov/Chess-Portal#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
