@@ -53,10 +53,16 @@ const handleCellClick = (event) => {
     if (window.selectedPiece) {
         // Retrieve the destination cell and the selected piece info
         const destinationCell = event.currentTarget;
-        const { piece, fromCell } = window.selectedPiece;
+        const { piece, fromCell, pieceType, pieceColor } = window.selectedPiece;
 
         // If the destination cell is not empty, do nothing
         if (destinationCell.querySelector('.piece').style.backgroundImage.includes('url')) {
+            return;
+        }
+
+        // Check if the move is legal
+        if (!isLegalMove(fromCell, destinationCell, pieceType, pieceColor)) {
+            console.log('Illegal move');
             return;
         }
 
@@ -67,6 +73,9 @@ const handleCellClick = (event) => {
 
         // Remove the 'selected' class from the old cell
         fromCell.classList.remove('selected');
+
+        // Remove 'possibleMove' class from all cells
+        document.querySelectorAll('.cell.possibleMove').forEach(cell => cell.classList.remove('possibleMove'));
 
         // Reset window.selectedPiece
         window.selectedPiece = null;
@@ -80,14 +89,67 @@ const handleCellClick = (event) => {
             // Add 'selected' class to highlight the cell
             selectedCell.classList.add('selected');
 
-            // Save the selected piece and cell for later use
+            // Determine the piece type and color
+            const pieceType = selectedPiece.includes('pawn') ? 'pawn' : 'unknown';
+            const pieceColor = selectedPiece.includes('white') ? 'white' : 'black';
+
+            // Save the selected piece, cell, type and color for later use
             window.selectedPiece = {
                 piece: selectedPiece,
-                fromCell: selectedCell
+                fromCell: selectedCell,
+                pieceType: pieceType,
+                pieceColor: pieceColor
             };
+
+            // Highlight possible moves
+            highlightPossibleMoves(selectedCell);
         }
     }
 };
+
+const isLegalMove = (fromCell, toCell, pieceType, pieceColor) => {
+    // Determine the cell coordinates
+    const fromCoord = getCellCoordinates(fromCell);
+    const toCoord = getCellCoordinates(toCell);
+
+    // Return false if the starting and ending cells are the same
+    if (fromCoord.x === toCoord.x && fromCoord.y === toCoord.y) {
+        return false;
+    }
+
+    // For this example, we'll just implement movement rules for pawns
+    if ('pawn' === pieceType) {
+        if (pieceColor === 'white') {
+            // White pawns can only move upwards (y decreases)
+            return fromCoord.x === toCoord.x && fromCoord.y - 1 === toCoord.y;
+        } else if (pieceColor === 'black') {
+            // Black pawns can only move downwards (y increases)
+            return fromCoord.x === toCoord.x && fromCoord.y + 1 === toCoord.y;
+        }
+    }
+
+    // If we don't recognize the piece type, just return false
+    return false;
+}
+
+const getCellCoordinates = (cell) => {
+    const idSplit = cell.id.split('-');
+    return { x: parseInt(idSplit[2]), y: parseInt(idSplit[1]) };
+}
+
+function highlightPossibleMoves(fromCell) {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            const toCell = document.querySelector(`#cell-${i}-${j}`);
+            const selectedPiece = fromCell.querySelector('.piece').style.backgroundImage;
+            const pieceType = selectedPiece.includes('pawn') ? 'pawn' : 'unknown';
+            const pieceColor = selectedPiece.includes('white') ? 'white' : 'black';
+            if (isLegalMove(fromCell, toCell, pieceType, pieceColor)) {
+                toCell.classList.add('possibleMove');
+            }
+        }
+    }
+}
 
 function renderChessPieces(chessState) {
     for (let i = 0; i < chessState.length; i++) {
